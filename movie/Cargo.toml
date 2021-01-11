@@ -1,0 +1,19 @@
+[package]
+name = "rust"
+version = "0.1.0"
+authors = ["kazuma murata <kazzix14@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+opencv = { version = "0.46", default-features = false, features = ["opencv-32", "buildtime-bindgen"] }
+vulkano = "0.19"
+vulkano-shaders = "0.19"
+rustfft = "4.0"
+apodize = "1.0"
+hound = "3.4"
+image = "0.23"
+rand = "0.7"
+ebur128 = "0.1"
+color_space = "0.5"

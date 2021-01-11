@@ -1,0 +1,460 @@
+%!PS-Adobe-1.0
+%%BoundingBox: 0 0 1400 600
+%%BeginSetup
+<< /PageSize [1400 600] /Orientation 0 >> setpagedevice
+%%EndSetup
+
+0 0 moveto
+0 600 lineto
+1400 600 lineto
+1400 0 lineto
+closepath
+0 setgray
+fill
+
+% a1 .. a2
+/rand_in_range {
+    exch
+    % a2 a1
+    dup
+    % a2 a1 a1
+    3 1 roll
+    % a1 a2 a1
+    sub
+    % a1 r
+    rand
+    16#7fffffff div
+    exch
+    mul
+    add
+} def
+
+% R
+/rand_in_circle {
+    0 1 rand_in_range
+    %dup mul
+    dup 1 exch sub
+    % R r 1-r
+
+    % ^2
+    %dup mul
+
+    3 2 roll
+    mul 
+    % r R(1-r)
+    
+    0 360 rand_in_range dup
+    % r R(1-r) a a
+    sin
+    % r R(1-r) a sin(a)
+    2 index mul
+    % r R(1-r) a y
+
+    3 1 roll
+    % ro y R(1-r) a
+    cos
+    % ro y R cos(a)
+    mul
+    % ro y x
+    exch
+    % ro x y
+} def
+
+% r x y
+/set_color_light {
+    400 div
+    1.0 mul
+    0.3 add
+    % r x y
+    
+    exch
+    1000 div
+    0.4 mul
+    exch
+    % r x y
+
+    dup
+    % r x y y
+    2 index
+    % r x y y x
+    mul
+    % r x y xy
+    0.1 mul
+    0.3 add
+
+    3 2 roll
+    % r xy x y
+
+    1 index add
+    % r xy x (x+y)/2
+
+    exch 
+    % r xy (x+y)/2 x
+
+    1 index
+    % r xy (x+y)/2 x (x+y)/2
+    
+    div
+    exch
+    % r xy 2x/(x+y) (x+y)/2
+    
+    3 1 roll
+    % r (x+y)/2 xy 2x/(x+y) 
+    
+    3 1 roll
+    0 0.5 rand_in_range add
+    3 1 roll
+    0 0.5 rand_in_range add
+    3 1 roll
+    0 0.5 rand_in_range add
+
+    setrgbcolor
+} def
+
+% r x y
+/set_color_dark {
+    400 div
+    1.0 mul
+    0.3 add
+    % r x y
+    
+    exch
+    1000 div
+    0.4 mul
+    exch
+    % r x y
+
+    dup
+    % r x y y
+    2 index
+    % r x y y x
+    mul
+    % r x y xy
+    0.1 mul
+    0.3 add
+
+    3 2 roll
+    % r xy x y
+
+    1 index add
+    % r xy x (x+y)/2
+
+    exch 
+    % r xy (x+y)/2 x
+
+    1 index
+    % r xy (x+y)/2 x (x+y)/2
+    
+    div
+    exch
+    % r xy 2x/(x+y) (x+y)/2
+    
+    3 1 roll
+    % r (x+y)/2 xy 2x/(x+y) 
+    
+    3 1 roll
+    0 0.3 rand_in_range add
+    3 1 roll
+    0 0.3 rand_in_range add
+    3 1 roll
+    0 0.3 rand_in_range add
+
+    setrgbcolor
+} def
+
+/circle {
+    0 360 arc
+    fill
+} def
+
+% x y n light_or_dark r_min r_max R
+/splatter {
+    7 5 roll
+    % n light_or_dark r_min r_max R x y
+
+    6 index 0 1
+    % n light_or_dark r_min r_max R x y n 0 1
+
+    fill
+    3 2 roll { pop
+
+        2 index rand_in_circle
+        % ld rm r R x y ri dx dy
+
+        3 index add
+        % ld rm r R x y ri dx y2
+
+        exch
+        4 index add
+        exch
+        % ld rm r R x y ri x2 y2
+
+        7 index
+        % ld rm r R x y ri x2 y2 rm
+
+        7 index
+        % ld rm r R x y ri x2 y2 rm r
+        4 index
+        % ld rm r R x y ri x2 y2 rm r ri
+        mul
+        % ld rm r R x y ri x2 y2 rm r
+        4 index
+        mul
+        4 index
+        mul
+        4 index
+        mul
+        % ld rm r R x y ri x2 y2 rm r
+
+        rand_in_range
+        % ld rm r R x y ri x2 y2 r
+    
+
+        2 index
+        2 index
+        % ld rm r R x y ri x2 y2 r x2 y2
+
+    11 index
+    0 eq {
+            set_color_dark
+    } {
+            set_color_light
+    } ifelse
+
+        circle
+    pop
+    } for
+    moveto
+    pop pop pop pop pop
+} def
+
+/splattered_char_inner {
+        2 copy
+    1000 0  1.0  3.0 1000 splatter
+        2 copy
+     150 1  3.0 12.0  75 splatter
+        2 copy
+     250 1  1.0  5.0 750 splatter
+        2 copy
+     200 0  1.0 10.0 400 splatter
+        2 copy
+      10 0 10.0 15.0  20 splatter
+} def
+
+/stroke_color {
+    1.0 1.0 1.0 setrgbcolor
+} def
+
+250 150 translate
+
+% mode
+/splattered_chars {
+    % c
+    0195.0 0252.5 splattered_char_inner
+    0187.5 0277.5 splattered_char_inner 
+    0167.5 0275.0 splattered_char_inner 
+    0150.0 0260.0 splattered_char_inner 
+    0120.0 0250.0 splattered_char_inner 
+    0097.5 0230.0 splattered_char_inner 
+    0080.0 0215.5 splattered_char_inner 
+    0070.0 0205.5 splattered_char_inner 
+    0057.5 0190.0 splattered_char_inner 
+    0045.0 0170.0 splattered_char_inner 
+    0035.0 0150.0 splattered_char_inner 
+    0023.0 0135.0 splattered_char_inner 
+    0017.5 0110.0 splattered_char_inner 
+    0002.5 0090.0 splattered_char_inner 
+    0001.5 0065.0 splattered_char_inner 
+    0000.0 0045.0 splattered_char_inner 
+    0007.5 0020.0 splattered_char_inner 
+    0025.0 0005.0 splattered_char_inner 
+    0057.5 0000.0 splattered_char_inner 
+    0080.0 0007.5 splattered_char_inner 
+    0100.0 0010.0 splattered_char_inner 
+    0127.5 0017.5 splattered_char_inner 
+    0155.0 0035.0 splattered_char_inner 
+    0182.5 0042.5 splattered_char_inner 
+    0205.0 0055.0 splattered_char_inner 
+    0237.5 0070.0 splattered_char_inner 
+
+    % o
+    0297.5 0090.0 splattered_char_inner 
+    0292.5 0085.0 splattered_char_inner 
+    0287.5 0075.0 splattered_char_inner 
+    0285.0 0062.5 splattered_char_inner 
+    0285.0 0047.5 splattered_char_inner 
+    0282.5 0032.5 splattered_char_inner 
+    0285.0 0012.5 splattered_char_inner 
+    0300.0 0002.5 splattered_char_inner 
+    0317.5 0005.0 splattered_char_inner 
+    0325.0 0015.0 splattered_char_inner 
+    0337.5 0032.5 splattered_char_inner 
+    0347.5 0060.0 splattered_char_inner 
+    0347.5 0077.5 splattered_char_inner 
+    0340.0 0092.5 splattered_char_inner 
+    0325.0 0100.0 splattered_char_inner 
+    0312.5 0100.0 splattered_char_inner 
+    0302.5 0100.0 splattered_char_inner 
+    0290.0 0077.5 splattered_char_inner 
+      
+    % l   
+    0372.5 0022.5 splattered_char_inner 
+    0385.0 0002.5 splattered_char_inner 
+    0400.0 0002.5 splattered_char_inner 
+    0415.0 0010.0 splattered_char_inner 
+    0422.5 0017.5 splattered_char_inner 
+    0435.0 0040.0 splattered_char_inner 
+    0445.0 0060.0 splattered_char_inner 
+    0455.0 0080.0 splattered_char_inner 
+    0465.0 0100.0 splattered_char_inner 
+    0475.0 0120.0 splattered_char_inner 
+    0485.0 0150.0 splattered_char_inner 
+    0495.0 0170.0 splattered_char_inner 
+    0502.5 0195.0 splattered_char_inner 
+    0515.0 0215.0 splattered_char_inner 
+    0525.0 0240.0 splattered_char_inner 
+    0532.5 0255.0 splattered_char_inner 
+    0537.5 0275.0 splattered_char_inner 
+    0537.5 0287.5 splattered_char_inner 
+    0527.5 0297.5 splattered_char_inner 
+    0512.5 0285.0 splattered_char_inner 
+    0500.0 0270.0 splattered_char_inner 
+    0490.0 0257.5 splattered_char_inner 
+    0472.5 0217.5 splattered_char_inner 
+    0455.0 0167.5 splattered_char_inner 
+    0445.0 0137.5 splattered_char_inner 
+    0440.0 0112.5 splattered_char_inner 
+    0432.5 0077.5 splattered_char_inner 
+    0425.0 0035.0 splattered_char_inner 
+    0440.0 0000.0 splattered_char_inner 
+    0460.0 0007.5 splattered_char_inner 
+    0497.5 0032.5 splattered_char_inner 
+    0507.5 0050.0 splattered_char_inner 
+    0540.0 0072.5 splattered_char_inner 
+       
+    % o
+    0597.5 0090.0 splattered_char_inner 
+    0592.5 0080.0 splattered_char_inner 
+    0587.5 0062.5 splattered_char_inner 
+    0585.0 0047.5 splattered_char_inner 
+    0585.0 0032.5 splattered_char_inner 
+    0585.0 0012.5 splattered_char_inner 
+    0600.0 0002.5 splattered_char_inner 
+    0617.5 0005.0 splattered_char_inner 
+    0625.0 0015.0 splattered_char_inner 
+    0637.5 0032.5 splattered_char_inner 
+    0647.5 0060.0 splattered_char_inner 
+    0647.5 0077.5 splattered_char_inner 
+    0647.5 0087.5 splattered_char_inner 
+    0642.5 0092.5 splattered_char_inner 
+    0635.0 0097.5 splattered_char_inner 
+    0620.0 0102.5 splattered_char_inner 
+    0602.5 0100.0 splattered_char_inner 
+    0592.5 0077.5 splattered_char_inner 
+      
+    % r
+    0702.5 0095.0 splattered_char_inner  
+    0710.0 0092.5 splattered_char_inner  
+    0717.5 0072.5 splattered_char_inner  
+    0715.0 0055.0 splattered_char_inner  
+    0712.5 0042.5 splattered_char_inner  
+    0707.5 0020.0 splattered_char_inner  
+    0702.5 0002.5 splattered_char_inner  
+    0720.0 0065.0 splattered_char_inner  
+    0730.0 0082.5 splattered_char_inner  
+    0740.0 0095.0 splattered_char_inner  
+    0767.5 0100.0 splattered_char_inner  
+    0792.5 0102.5 splattered_char_inner  
+     
+      
+    % s
+    0790.0 0002.5 splattered_char_inner 
+    0810.0 0007.5 splattered_char_inner 
+    0830.0 0017.5 splattered_char_inner 
+    0852.5 0040.0 splattered_char_inner 
+    0855.0 0045.0 splattered_char_inner 
+    0852.5 0062.5 splattered_char_inner 
+    0842.5 0070.0 splattered_char_inner 
+    0835.0 0077.5 splattered_char_inner 
+    0835.0 0077.5 splattered_char_inner 
+    0855.0 0085.0 splattered_char_inner 
+    0877.5 0095.0 splattered_char_inner 
+    0895.0 0097.5 splattered_char_inner
+} def
+
+/stroked_chars {
+    % c
+    0195.0 0252.5 moveto
+    0205.0 0285.0 0187.5 0277.5 0167.5 0275.0 curveto
+    0047.5 0227.5 0005.0 0115.0 0000.0 0045.0 curveto
+    0000.0 0020.0 0015.0 0005.0 0032.5 0002.5 curveto
+    0057.5 0000.0 0085.0 0005.0 0100.0 0010.0 curveto
+    0160.0 0032.5 0182.5 0045.0 0237.5 0070.0 curveto
+
+    % o
+    0297.5 0090.0 moveto
+    0292.5 0085.0 0290.0 0080.0 0287.5 0075.0 curveto
+    0285.0 0062.5 0285.0 0047.5 0282.5 0032.5 curveto
+    0285.0 0012.5 0287.5 0002.5 0300.0 0002.5 curveto
+    0307.5 0002.5 0317.5 0005.0 0325.0 0015.0 curveto
+    0337.5 0032.5 0347.5 0060.0 0347.5 0077.5 curveto
+    0347.5 0087.5 0340.0 0092.5 0332.5 0097.5 curveto
+    0325.0 0100.0 0317.5 0102.5 0312.5 0100.0 curveto
+    0302.5 0100.0 0297.5 0087.5 0290.0 0077.5 curveto
+
+    % l
+    0372.5 0022.5 moveto
+    0375.0 0012.5 0385.0 0002.5 0400.0 0002.5 curveto
+    0410.0 0002.5 0415.0 0010.0 0422.5 0017.5 curveto
+    0467.5 0095.0 0497.5 0170.0 0515.0 0215.0 curveto
+    0537.5 0275.0 0537.5 0287.5 0532.5 0297.5 curveto
+    0527.5 0302.5 0500.0 0270.0 0500.0 0270.0 curveto
+    0490.0 0257.5 0472.5 0217.5 0455.0 0167.5 curveto
+    0445.0 0137.5 0440.0 0112.5 0432.5 0077.5 curveto
+    0425.0 0035.0 0425.0 0010.0 0432.5 0007.5 curveto
+    0440.0 0000.0 0452.5 0000.0 0460.0 0007.5 curveto
+    0497.5 0032.5 0507.5 0050.0 0540.0 0072.5 curveto
+
+    % o
+    0597.5 0090.0 moveto
+    0595.0 0085.0 0592.5 0080.0 0590.0 0075.0 curveto
+    0587.5 0062.5 0585.0 0047.5 0585.0 0032.5 curveto
+    0585.0 0012.5 0590.0 0002.5 0600.0 0002.5 curveto
+    0607.5 0002.5 0617.5 0005.0 0625.0 0015.0 curveto
+    0637.5 0032.5 0647.5 0060.0 0647.5 0077.5 curveto
+    0647.5 0087.5 0642.5 0092.5 0635.0 0097.5 curveto
+    0625.0 0100.0 0620.0 0102.5 0612.5 0100.0 curveto
+    0602.5 0100.0 0597.5 0087.5 0592.5 0077.5 curveto
+
+    % r
+    0702.5 0095.0 moveto
+    0707.5 0095.0 0710.0 0092.5 0712.5 0090.0 curveto
+    0717.5 0087.5 0717.5 0072.5 0715.0 0055.0 curveto
+    0712.5 0042.5 0707.5 0020.0 0702.5 0002.5 curveto
+    0707.5 0035.0 0720.0 0065.0 0727.5 0075.0 curveto
+    0730.0 0082.5 0740.0 0095.0 0755.0 0097.5 curveto
+    0767.5 0100.0 0780.0 0100.0 0792.5 0102.5 curveto
+
+    % s
+    0790.0 0002.5 moveto
+    0810.0 0007.5 0830.0 0017.5 0845.0 0030.0 curveto
+    0852.5 0040.0 0855.0 0045.0 0852.5 0057.5 curveto
+    0852.5 0062.5 0842.5 0070.0 0837.5 0072.5 curveto
+    0835.0 0077.5 0835.0 0077.5 0840.0 0080.0 curveto
+    0870.0 0090.0 0885.0 0102.5 0897.5 0097.5 curveto
+    stroke_color
+    stroke 
+} def
+
+2 srand
+5.0 setlinewidth
+1 setlinecap
+1 setlinejoin
+
+0 setgray
+
+splattered_chars
+stroked_chars
+
+showpage
+quit
